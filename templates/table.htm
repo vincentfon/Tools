@@ -1,0 +1,127 @@
+{if $type eq 'display'}
+{$head}
+<table width="100%" class="postform">
+	<tr>
+		<th colspan="2" class="mi">
+			{$tableCore.title}
+		</th>
+	</tr>
+	<form action="{$tableCore.action}" method="{$tableCore.method}" enctype="{$tableCore.enctype}" name="{$tableCore.name}" class="{$tableCore.class}"  id="{$tableCore.id}">
+		{$tableCore.table}
+	</form>
+</table>
+{$end}
+{/if}
+{if $type eq 'input'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td><input type="text" style="{$data.css}" name="{$data.name}" class="{$data.class}" id="{$data.id}" value="{$data.value}" /></td>
+</tr>
+{/if}
+{if $type eq 'password'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td><input type="password" style="{$data.css}" name="{$data.name}" class="{$tableCore.class}" id="{$data.id}" value="{$data.value}" /></td>
+</tr>
+{/if}
+{if $type eq 'hidden'}
+ <input type="hidden" style="{$data.css}" name="{$data.name}" class="{$tableCore.class}" id="{$data.id}" value="{$data.value}" />
+{/if}
+{if $type eq 'textarea'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+		<textarea style="{$data.css}" name="{$data.name}" class="{$tableCore.class}" id="{$data.id}">{$data.value}</textarea>
+	</td>
+</tr>
+{/if}
+{if $type eq 'radio'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+	{foreach from=$data.radio item=item key=key}
+		<label>
+			<input type="radio" name="{$data.name}" class="{$data.class}" id="{$data.id}" {if $data.value eq $key}checked{/if} /> {$item.value}
+		</label>
+	{/foreach}
+	</td>
+</tr>
+{/if}
+{if $type eq 'checkbox'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+	{foreach from=$data.checkbox item=item key=key}
+		<label>
+			<input type="checkbox" name="{$data.name}" class="{$data.class}" id="{$data.id}" {if $data.checked.$key eq 1}checked{/if} /> 
+			{$item.value}
+		</label>
+	{/foreach}
+	</td>
+</tr>
+{/if}
+{if $type eq 'select'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+	<select name="{$data.name}">
+		{foreach from=$data.select item=item key=key}
+		<option value="{$key}" {if $item == $data.value}selected{/if}>{$item}</option>
+		{/foreach}
+	</select>
+	</td>
+</tr>
+{/if}
+{if $type eq 'input_date'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+	<input type="text" style="{$data.css}" name="{$data.name}" class="{$data.class}" id="{$data.id}" value="{$data.value}" onclick="$.calendar({ format:'yyyy-MM-dd HH:mm:ss' , btnBar:true});"/>
+	</td>
+</tr>
+{/if}
+{if $type eq 'input_add'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+		{foreach from=$data.input_add item=item}
+		<div>
+			<input type="text" style="width:400px; margin-top:5px;" id="{$data.id}" class="{$data.css}" name="{$data.name}[]" value="{$item}" />
+			<input type="button" class="smallbutton red" value="删除" onclick="$(this).parent().remove();"/>
+		</div>
+		{/foreach}
+		<input type="button" class='smallbutton blue' id="input_add_tag_{$data.name}" value="添加" onclick="addInputTag('{$data.name}', '{$data.id}', '{$data.css}');"/>
+	</td>
+</tr>
+{/if}
+{if $type eq 'select_input'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+		<select name="{$data.name}">
+			{foreach from=$data.select_input item=item key=key}
+			<option value="{$key}" {if $item == $data.value}selected{/if}>{$item}</option>
+			{/foreach}
+		</select>
+		<input type="input" value="" onkeyup="change_priv_val(this);" />
+	</td>
+</tr>
+{/if}
+{if $type eq 'input_add_ar'}
+<tr>
+	<td>{$data.tag_name}</td>
+	<td>
+		{foreach from=$data.count item=item}
+		<div>
+			{foreach from=$data.value item=valuedata key=key}
+			<span style="padding-left:10px; color:RoyalBlue;">{$data.name.$key} : </span>
+			<input type="text" style="width:150px; margin-top:5px;" name="{$key}[]" value="{$valuedata.$item}" />
+			{/foreach}
+			<input type="button" class="smallbutton red" value="删除" onclick="$(this).parent().remove();"/>
+			<hr />
+		</div>
+		{/foreach}
+		<input type="button" class='smallbutton blue' id="input_add_tag_{$data.name}" value="添加" onclick='addInputTagAr("{$data.tag_name}", {$data.input_add_ar_json});'/>
+	</td>
+</tr>
+{/if}
